@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/bus-display/static/css/main.b0bc3397.chunk.css",
+    "main.js": "/bus-display/static/js/main.9c90322c.chunk.js",
+    "main.js.map": "/bus-display/static/js/main.9c90322c.chunk.js.map",
+    "runtime-main.js": "/bus-display/static/js/runtime-main.a6ee9332.js",
+    "runtime-main.js.map": "/bus-display/static/js/runtime-main.a6ee9332.js.map",
+    "static/js/2.771dbc72.chunk.js": "/bus-display/static/js/2.771dbc72.chunk.js",
+    "static/js/2.771dbc72.chunk.js.map": "/bus-display/static/js/2.771dbc72.chunk.js.map",
+    "static/js/3.1ed7d3d1.chunk.js": "/bus-display/static/js/3.1ed7d3d1.chunk.js",
+    "static/js/3.1ed7d3d1.chunk.js.map": "/bus-display/static/js/3.1ed7d3d1.chunk.js.map",
+    "index.html": "/bus-display/index.html",
+    "static/css/main.b0bc3397.chunk.css.map": "/bus-display/static/css/main.b0bc3397.chunk.css.map",
+    "static/js/2.771dbc72.chunk.js.LICENSE.txt": "/bus-display/static/js/2.771dbc72.chunk.js.LICENSE.txt",
+    "static/js/mapbox-gl-csp-worker.7c02b1fb.worker.js": "/bus-display/static/js/mapbox-gl-csp-worker.7c02b1fb.worker.js",
+    "static/js/mapbox-gl-csp-worker.7c02b1fb.worker.js.map": "/bus-display/static/js/mapbox-gl-csp-worker.7c02b1fb.worker.js.map"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a6ee9332.js",
+    "static/js/2.771dbc72.chunk.js",
+    "static/css/main.b0bc3397.chunk.css",
+    "static/js/main.9c90322c.chunk.js"
+  ]
+}
