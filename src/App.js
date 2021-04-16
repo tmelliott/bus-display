@@ -6,11 +6,14 @@ import VehicleMap from './components/VehicleMap';
 
 function App() {
 
+  const [fetching, setFetching] = useState(false)
   const [feed, setFeed] = useState([])
   const [vehicles, setVehicles] = useState([])
 
-  // Run when the app loads:
-  useEffect(() => {
+  const fetchData = () => {
+    if (fetching) return
+    console.log(" --- fetch data --- ")
+    setFetching(true)
     const headers = {
       "Ocp-Apim-Subscription-Key": process.env.REACT_APP_AT_API_KEY,
     }
@@ -22,6 +25,17 @@ function App() {
         console.log(response)
       })
       .then(data => setFeed(data.response.entity))
+      .then(() => setFetching(false))
+
+      return () => setFetching(false)
+  }
+
+  // Run when the app loads:
+  useEffect(() => {
+    fetchData()
+    let interval = setInterval(() => fetchData(), 30 * 1000)
+
+    return () => clearInterval(interval)
   }, [])
 
   // Run when the feed changes:
@@ -46,7 +60,7 @@ function App() {
   }, [feed])
 
   useEffect(() => {
-    console.log(vehicles)
+    // console.log(vehicles)
   }, [vehicles])
 
   return (
