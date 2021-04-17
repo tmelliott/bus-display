@@ -10,11 +10,11 @@ import * as d3 from 'd3'
 mapboxgl.workerClass = MapboxWorker
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY
 
-function VehicleMap({vehicles}) {
+function VehicleMap({vehicles, refresh, palette}) {
     const mapContainer = useRef()
-    const [lng, setLng] = useState(174.860478)
-    const [lat, setLat] = useState(-36.845794)
-    const [zoom, setZoom] = useState(10)
+    const [lng] = useState(174.860478)
+    const [lat] = useState(-36.845794)
+    const [zoom] = useState(10)
 
     const [container, setContainer] = useState()
     const [map, setMap] = useState()
@@ -26,7 +26,6 @@ function VehicleMap({vehicles}) {
         setMap(
             new mapboxgl.Map({
                 container: mapContainer.current,
-                // style: 'mapbox://styles/mapbox/dark-v10',
                 style: {
                     'version': 8,
                     'sources': {
@@ -54,7 +53,7 @@ function VehicleMap({vehicles}) {
         )
 
         // return () => map.remove()
-    }, [])
+    }, [lat, lng, zoom])
 
     useEffect(() => {
         if (map === undefined) return
@@ -95,9 +94,11 @@ function VehicleMap({vehicles}) {
                         v.position.latitude
                     )
                 ),
+                occ_stat: v.occupancy_status,
+                status: v.occupancy_status === undefined ? 0 : v.occupancy_status + 1,
             }))
         )
-    }, [svg, vehicles])
+    }, [svg, vehicles, map])
 
     useEffect(() => {
         if (data.length === 0) return
@@ -108,15 +109,14 @@ function VehicleMap({vehicles}) {
             .data(data, d => d.id)
 
         circles.exit()
-            .style('fill', 'green')
-            // .transition()
-            // .duration(500)
-            // .attr('r', 0)
-            // .remove()
+            .transition()
+            .duration(500)
+            .attr('r', 0)
+            .remove()
 
         circles.enter()
             .append('circle')
-            .style('fill', 'red')
+            .style('fill', d => palette[d.status])
             .attr('r', 0)
             .attr('cx', d => d.pos.x)
             .attr('cy', d => d.pos.y)
@@ -125,27 +125,17 @@ function VehicleMap({vehicles}) {
             .attr('r', 5)
 
         circles.transition()
-            .duration(20 * 1000)
+            .duration(refresh)
             .attr('cx', d => d.pos.x)
             .attr('cy', d => d.pos.y)
-            .style('fill', 'blue')
-            // .transition()
-            // .duration(500)
-            // .attr('r', 5)
+            .style('fill', d => palette[d.status])
 
         return () => svg.selectAll('circle').data([])
-    }, [data, svg])
+    }, [data, svg, map, palette, refresh])
 
     return (
         <Container>
             <Map ref={mapContainer} />
-            {/* <Vehicles>
-                {vehicles.map(v => (
-                <Vehicle key={v.key}>
-                    {v?.trip_update?.delay}
-                </Vehicle>
-                ))}
-            </Vehicles> */}
         </Container>
     )
 }
@@ -161,21 +151,4 @@ const Map = styled.div`
     height: 100vh;
     width: 100vw;
     background: #262626;
-`
-
-const Vehicles = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-`
-
-const Vehicle = styled.div`
-  display: inline-block;
-  height: 20px;
-  width: 50px;
-  font-size: 10px;
-  background: pink;
-  margin: 1em;
-  text-align: center;
-  line-height: 20px;
 `
