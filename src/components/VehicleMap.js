@@ -12,9 +12,9 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY
 
 function VehicleMap({vehicles, refresh, palette}) {
     const mapContainer = useRef()
-    const [lng] = useState(174.860478)
+    const [lng] = useState(174.812378)
     const [lat] = useState(-36.845794)
-    const [zoom] = useState(10)
+    const [zoom] = useState(12)
 
     const [container, setContainer] = useState()
     const [map, setMap] = useState()

@@ -154,7 +154,7 @@ function App() {
 
       <Title>
         <h1>Real-time Public Transport Data</h1>
-        <h2>Vehicle Occupancy</h2>
+        <h2>Vehicle Occupancy in the CBD</h2>
       </Title>
 
       <Charts>
