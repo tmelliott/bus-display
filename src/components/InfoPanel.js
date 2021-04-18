@@ -1,20 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
 
-function InfoPanel() {
+function InfoPanel({total, refresh}) {
     return (
         <Container>
             <p>
-                <strong>Real-time positions of buses</strong> are obtained through Auckland Tranport's public API, which includes <strong>arrival/departure delays</strong> at the most recently visited stop. Buses between <strong>1 minute early and 5 minutes late</strong> are defined as <strong>on time</strong>.
+                <strong>Real-time vehicle locations</strong> of buses and trains are obtained from Auckland Transport's public API. The data on the map is updated once every <strong>{refresh} seconds</strong>.
             </p>
             <p>
-                Location points are coloured by the bus's <strong>occupancy status</strong>, which indicates the number of passengers on board.
+                Map points are coloured by the bus's <strong>occupancy status</strong>, which indicates the number of passengers on board.
             </p>
-            {/* <p>
-                The line graph shows how the <strong>percentage of buses
-                that are on time, early</strong> (by more than 1 minute), <strong>and late</strong>
-                (by more than 5 minutes) has changed today.
-            </p> */}
+
+            <Stats>
+                <Stat>
+                    <label>Total Vehicles:</label>
+                    <p>{total}</p>
+                </Stat>
+            </Stats>
         </Container>
     )
 }
@@ -22,21 +24,35 @@ function InfoPanel() {
 export default InfoPanel
 
 const Container = styled.div`
-    position: fixed;
+    /* position: fixed;
     top: 1.0em;
     left: 1.0em;
     width: 25vw;
-    z-index: 1000;
+    z-index: 1000; */
 
+    width: 100%;
     font-size: 1.2rem;
     line-height: 1.5;
-    background: rgba(0,0,0,0.4);
-    padding: 1em 2em 0;
+    /* background: rgba(0,0,0,0.4); */
+    /* padding: 1em 2em 0; */
     color: #fff;
-    border: 4px solid #fff;
+    /* border: 4px solid #fff; */
 
     p {
         margin: 0 0 1em 0;
     }
 
+`
+
+const Stats = styled.div`
+    font-size: 1.5em;
+`
+const Stat = styled.div`
+    display: flex;
+    label {
+        /* display: inline-block; */
+        width: 50%;
+        text-align: right;
+        padding-right: 1em;
+    }
 `

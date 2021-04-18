@@ -84,7 +84,6 @@ function VehicleMap({vehicles, refresh, palette}) {
     useEffect(() => {
         if (svg === undefined) return
         if (vehicles.length === 0) return
-        console.log("-- set data --")
         setData(
             vehicles.map(v => ({
                 id: v.key,

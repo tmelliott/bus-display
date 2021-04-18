@@ -10,7 +10,7 @@ import InfoPanel from './components/InfoPanel';
 function App() {
 
   // Timing information:
-  const refresh_rate = 30
+  const refresh_rate = 20
 
   const [feed, setFeed] = useState([])
   const [vehicles, setVehicles] = useState([])
@@ -62,8 +62,15 @@ function App() {
     setVehicles(
       feed
         .filter(
-          f => f.vehicle && !f.is_deleted &&
-            f.vehicle.position
+          f => !f.is_deleted &&
+            f.vehicle &&
+            f.vehicle.trip &&
+            f.vehicle.timestamp > (Date.now() / 1000 - 5 * 60) &&
+            f.vehicle.position &&
+            f.vehicle.position.latitude > -38 &&
+            f.vehicle.position.latitude < -36 &&
+            f.vehicle.position.longitude > 174 &&
+            f.vehicle.position.longitude < 176
         )
         .map(
           f => {
@@ -83,6 +90,7 @@ function App() {
   }, [feed])
 
   useEffect(() => {
+    console.log(vehicles)
     // create occupancy table
     let occ = vehicles.map(v => v.occupancy_status === undefined ? 0 : v.occupancy_status + 1)
     let tbl = new Array(8).fill(0)
@@ -95,7 +103,7 @@ function App() {
       {'label': 'Many seats', 'count': tbl[2], 'colour': occupancyPalette[2]},
       {'label': 'Few seats', 'count': tbl[3], 'colour': occupancyPalette[3]},
       {'label': 'Standing room only', 'count': tbl[4], 'colour': occupancyPalette[4]},
-      {'label': 'Crushed standing room only', 'count': tbl[5], 'colour': occupancyPalette[5]},
+      // {'label': 'Crushed standing room only', 'count': tbl[5], 'colour': occupancyPalette[5]},
       {'label': 'Full', 'count': tbl[6], 'colour': occupancyPalette[6]},
       {'label': 'Not accepting passengers', 'count': tbl[7], 'colour': occupancyPalette[7]},
     ])
@@ -108,7 +116,6 @@ function App() {
     })
 
     tbl = new Array(8).fill(0)
-    console.log(delays)
     for (let i=0;i<delays.length;i++) {
       if (delays[i] === undefined) tbl[0]++
       else if (delays[i] <= -300) tbl[1]++
@@ -145,9 +152,17 @@ function App() {
         palette={occupancyPalette}
         />
 
-      <InfoPanel />
+      <Title>
+        <h1>Real-time Public Transport Data</h1>
+        <h2>Vehicle Occupancy</h2>
+      </Title>
 
       <Charts>
+        <InfoPanel
+          total={vehicles.length}
+          refresh={refresh_rate}
+        />
+
         <BarChart data={occupancyTable}
           xlab="Occupancy Status"
           />
@@ -168,4 +183,27 @@ const Charts = styled.div`
   z-index: 5;
   top: 2em;
   right: 2em;
+  width: 30em;
+  padding: 1em 2em;
+  background: rgba(0,0,0,0.2);
+`
+
+const Title = styled.div`
+  position: fixed;
+  z-index: 10;
+  top: 1em;
+  left: 0em;
+  color: black;
+  padding: 1em 3em;
+  width: 50vw;
+  text-align: right;
+  background: rgba(255,255,255,0.7);
+
+  h1 {
+    font-size: 45px;
+  }
+  h2 {
+    font-size: 30px;
+    font-style: italic;
+  }
 `

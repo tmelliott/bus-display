@@ -33,15 +33,17 @@ export default BarChart
 
 const Container = styled.div`
     margin-bottom: 2em;
+    margin-top: 1em;
     /* left: 2em;
     bottom: 2em; */
-    height: 30vh;
-    width: 30vw;
+    /* height: 30vh; */
     display: flex;
     flex-direction: column;
-    background: rgba(0,0,0,0.3);
-    padding: 0.5em;
-    border: solid 4px white;
+    /* background: rgba(0,0,0,0.3); */
+    /* padding: 0.5em; */
+    border-top: solid 4px white;
+    /* padding-top: 0.5em; */
+    border-bottom: solid 1px white;
 `
 
 const Label = styled.div`
@@ -50,6 +52,8 @@ const Label = styled.div`
     /* text-align: right; */
     font-weight: bold;
     /* background: pink; */
+    padding: 0.5em;
+    border-bottom: solid 1px white;
 `
 
 const Column = styled.div`
@@ -62,6 +66,7 @@ const Column = styled.div`
     font-weight: bold;
     font-size: 0.7em;
     overflow: hidden;
+    height: 2em;
 `
 const Bar = styled.div`
     flex: 1;
