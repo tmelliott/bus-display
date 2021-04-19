@@ -148,7 +148,7 @@ function App() {
   return (
     <Container>
       <VehicleMap vehicles={vehicles}
-        refresh={(refresh_rate - 5) * 1000}
+        refresh={(refresh_rate - 1) * 1000}
         palette={occupancyPalette}
         />
 
@@ -183,9 +183,15 @@ const Charts = styled.div`
   z-index: 5;
   top: 2em;
   right: 2em;
+  bottom: 2em;
   width: 30em;
   padding: 1em 2em;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  box-shadow: 5px 3px 10px 5px rgba(0,0,0,0.4);
+  border-radius: 5px;
 `
 
 const Title = styled.div`
@@ -197,7 +203,9 @@ const Title = styled.div`
   padding: 1em 3em;
   width: 50vw;
   text-align: right;
-  background: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.8);
+  box-shadow: 5px 3px 10px 10px rgba(0,0,0,0.4);
+  border-radius: 0 3px 3px 0;
 
   h1 {
     font-size: 45px;

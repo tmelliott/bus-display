@@ -124,6 +124,7 @@ function VehicleMap({vehicles, refresh, palette}) {
             .attr('r', 5)
 
         circles.transition()
+            .ease(d3.easeLinear)
             .duration(refresh)
             .attr('cx', d => d.pos.x)
             .attr('cy', d => d.pos.y)

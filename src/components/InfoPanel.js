@@ -5,7 +5,7 @@ function InfoPanel({total, refresh}) {
     return (
         <Container>
             <p>
-                <strong>Real-time vehicle locations</strong> of buses and trains are obtained from Auckland Transport's public API. The data on the map is updated once every <strong>{refresh} seconds</strong>.
+                <strong>Real-time vehicle locations</strong> of buses and trains are obtained from Auckland Transport's public API. The data on the map is updated once every <strong>{refresh} seconds</strong>. Animations are interpolated between consecutive locations (so don't worry if you see a bus swimming in the Waitematā).
             </p>
             <p>
                 Map points are coloured by the bus's <strong>occupancy status</strong>, which indicates the number of passengers on board.
