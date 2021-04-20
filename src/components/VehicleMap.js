@@ -10,7 +10,7 @@ import * as d3 from 'd3'
 mapboxgl.workerClass = MapboxWorker
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY
 
-function VehicleMap({vehicles, refresh, palette}) {
+function VehicleMap({vehicles, refresh, palette, cvar}) {
     const mapContainer = useRef()
     const [lng] = useState(174.812378)
     const [lat] = useState(-36.845794)
@@ -93,14 +93,16 @@ function VehicleMap({vehicles, refresh, palette}) {
                         v.position.latitude
                     )
                 ),
-                occ_stat: v.occupancy_status,
-                status: v.occupancy_status === undefined ? 0 : v.occupancy_status + 1,
+                // occ_stat: cvar(v),
+                status: cvar(v) === undefined ? 0 : cvar(v) + 1,
             }))
+                .sort((a, b) => a.status - b.status)
         )
     }, [svg, vehicles, map])
 
     useEffect(() => {
         if (data.length === 0) return
+        // console.log(data)
 
         console.log("-- set data points --")
         let circles = svg

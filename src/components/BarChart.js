@@ -12,14 +12,13 @@ function BarChart({data, xlab}) {
             // data.reduce((a,v) => a = a + v.count, 0)
             // Math.max.apply(Math, data.map(d => d.count))
         )
-        console.log(maxCount)
     }, [data])
 
     return (
         <Container>
             <Label>{xlab}</Label>
             {data.length && data.map(d => (
-                <Column>
+                <Column key={d.label}>
                     <Bar
                         height={100 * (d.count / maxCount)}
                         colour={d.colour}

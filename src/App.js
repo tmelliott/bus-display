@@ -18,8 +18,19 @@ function App() {
   const [delaysTable, setDelaysTable] = useState([])
 
 
-  const specPal = [...d3.schemeSpectral[7], '#cecece']
-  const occupancyPalette = specPal.reverse()
+  const specPal = [...d3.schemeSpectral[5], '#cecece'].reverse()
+  const occupancyPalette = [specPal[0], specPal[1], specPal[2], specPal[3], specPal[4], specPal[4], specPal[5], specPal[5]]
+  const delayPalette = ['#95a5a6', '#3c42a5', '#28aebb', '#26d926', '#f39c12', '#d35400', 'red', '#990000']
+  const delayMapFn = (d) => {
+    if (d === undefined) return 0
+    if (d <= -300) return 1
+    if (d <= -60) return 2
+    if (d <= 300) return 3
+    if (d <= 600) return 4
+    if (d <= 1200) return 5
+    if (d <= 1800) return 6
+    return 7
+  }
 
   // Run when the app loads:
   useEffect(() => {
@@ -39,7 +50,7 @@ function App() {
           if (response.ok) {
             return response.json()
           }
-          console.log(response)
+          // console.log(response)
         })
         .then(data => setFeed(data.response.entity))
         .then(() => {
@@ -90,7 +101,7 @@ function App() {
   }, [feed])
 
   useEffect(() => {
-    console.log(vehicles)
+    // console.log(vehicles)
     // create occupancy table
     let occ = vehicles.map(v => v.occupancy_status === undefined ? 0 : v.occupancy_status + 1)
     let tbl = new Array(8).fill(0)
@@ -98,14 +109,14 @@ function App() {
       tbl[occ[i]]++
     }
     setOccupancyTable([
-      {'label': 'Unknown', 'count': tbl[0], 'colour': occupancyPalette[0]},
+      {'label': 'No data', 'count': tbl[0], 'colour': occupancyPalette[0]},
       {'label': 'Empty', 'count': tbl[1], 'colour': occupancyPalette[1]},
       {'label': 'Many seats', 'count': tbl[2], 'colour': occupancyPalette[2]},
       {'label': 'Few seats', 'count': tbl[3], 'colour': occupancyPalette[3]},
-      {'label': 'Standing room only', 'count': tbl[4], 'colour': occupancyPalette[4]},
+      {'label': 'Standing room only', 'count': tbl[4] + tbl[5], 'colour': occupancyPalette[4]},
       // {'label': 'Crushed standing room only', 'count': tbl[5], 'colour': occupancyPalette[5]},
-      {'label': 'Full', 'count': tbl[6], 'colour': occupancyPalette[6]},
-      {'label': 'Not accepting passengers', 'count': tbl[7], 'colour': occupancyPalette[7]},
+      {'label': 'Full / Not accepting passengers', 'count': tbl[6] + tbl[7], 'colour': occupancyPalette[6]}, // NOTE change index if uncommenting other rows
+      // {'label': 'Not accepting passengers', 'count': tbl[7], 'colour': occupancyPalette[7]},
     ])
 
     let delays = vehicles.map(v => {
@@ -117,39 +128,37 @@ function App() {
 
     tbl = new Array(8).fill(0)
     for (let i=0;i<delays.length;i++) {
-      if (delays[i] === undefined) tbl[0]++
-      else if (delays[i] <= -300) tbl[1]++
-      else if (delays[i] <= -60) tbl[2]++
-      else if (delays[i] <= 300) tbl[3]++
-      else if (delays[i] <= 600) tbl[4]++
-      else if (delays[i] <= 1200) tbl[5]++
-      else if (delays[i] <= 1800) tbl[6]++
-      else tbl[7]++
+      let di = delayMapFn(delays[i])
+      tbl[di]++
     }
+
     setDelaysTable([
-      {'label': 'No data', 'count': tbl[0], 'colour': '#95a5a6'},
-      {'label': '>5m early', 'count': tbl[1], 'colour': '#3c42a5'},
-      {'label': '1-5m early', 'count': tbl[2], 'colour': '#28aebb'},
-      {'label': 'On time', 'count': tbl[3], 'colour': '#26d926'},
-      {'label': '5-10m late', 'count': tbl[4], 'colour': '#f39c12'},
-      {'label': '10-20m late', 'count': tbl[5], 'colour': '#d35400'},
-      {'label': '20-30m late', 'count': tbl[6], 'colour': 'red'},
-      {'label': '30+m late', 'count': tbl[7], 'colour': '#990000'},
+      {'label': 'No data', 'count': tbl[0], 'colour': delayPalette[0]},
+      {'label': '>5m early', 'count': tbl[1], 'colour': delayPalette[1]},
+      {'label': '1-5m early', 'count': tbl[2], 'colour': delayPalette[2]},
+      {'label': 'On time', 'count': tbl[3], 'colour': delayPalette[3]},
+      {'label': '5-10m late', 'count': tbl[4], 'colour': delayPalette[4]},
+      {'label': '10-20m late', 'count': tbl[5], 'colour': delayPalette[5]},
+      {'label': '20-30m late', 'count': tbl[6], 'colour':delayPalette[6]},
+      {'label': '30+m late', 'count': tbl[7], 'colour': delayPalette[7]},
     ])
 
   }, [vehicles])
 
-
-
-  // useEffect(() => {
-  //   console.log(occupancyTable)
-  // }, [occupancyTable])
-
   return (
     <Container>
-      <VehicleMap vehicles={vehicles}
+      <VehicleMap
+        vehicles={vehicles}
         refresh={(refresh_rate - 1) * 1000}
         palette={occupancyPalette}
+        cvar={(v) => v.occupancy_status}
+        // palette={delayPalette}
+        // cvar={(v) => {
+        //   let d = v.trip_update?.stop_time_update?.arrival ?
+        //     v.trip_update?.stop_time_update?.arrival.delay :
+        //     v.trip_update?.stop_time_update?.departure.delay
+        //   return delayMapFn(d)
+        // }}
         />
 
       <Title>
