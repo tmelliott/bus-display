@@ -8,8 +8,11 @@ function BarChart({data, xlab}) {
     useEffect(() => {
         if (data.length === 0) return
         setMaxCount(
-            Math.max.apply(Math, data.map(d => d.count))
+            data.reduce((a,v) => a = Math.max(a, v.count), 0)
+            // data.reduce((a,v) => a = a + v.count, 0)
+            // Math.max.apply(Math, data.map(d => d.count))
         )
+        console.log(maxCount)
     }, [data])
 
     return (
@@ -79,7 +82,7 @@ const Bar = styled.div`
         position: absolute;
         height: 100%;
         left: 0;
-        width: ${props => props.height}%;
+        width: ${props => props.height * 0.85}%;
         background: ${props => props.colour};
         transition: width 5s ease-in-out;
     }
