@@ -119,7 +119,7 @@ function App() {
     for (let i=0;i<delays.length;i++) {
       if (delays[i] === undefined) tbl[0]++
       else if (delays[i] <= -300) tbl[1]++
-      else if (delays[i] <= 60) tbl[2]++
+      else if (delays[i] <= -60) tbl[2]++
       else if (delays[i] <= 300) tbl[3]++
       else if (delays[i] <= 600) tbl[4]++
       else if (delays[i] <= 1200) tbl[5]++
