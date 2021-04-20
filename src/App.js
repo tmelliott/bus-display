@@ -109,7 +109,7 @@ function App() {
     ])
 
     let delays = vehicles.map(v => {
-      if (v.trip_update === undefined) return
+      if (v.trip_update === undefined || v.trip_update.stop_time_update === undefined) return
       return v.trip_update.stop_time_update.arrival ?
         v.trip_update.stop_time_update.arrival.delay :
         v.trip_update.stop_time_update.departure.delay
