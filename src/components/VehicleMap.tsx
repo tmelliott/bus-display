@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
 
 // import mapboxgl from "mapbox-gl/dist/mapbox-gl";
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -7,16 +6,24 @@ import styled from "styled-components";
 
 import * as d3 from "d3";
 import mapboxgl from "mapbox-gl";
+import type { Point } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import type { VehicleUpdate } from "../server/trpc/router/at";
 
 // mapboxgl.workerClass = MapboxWorker;
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || "";
 
 type VehicleMapProps = {
-  vehicles: any;
+  vehicles: VehicleUpdate[];
   refresh: number;
-  palette: (string | undefined)[];
-  cvar: (v: any) => number;
+  palette: string[];
+  cvar: (v: VehicleUpdate) => number;
+};
+
+type Data = {
+  id: string;
+  pos: Point;
+  status: number;
 };
 
 function VehicleMap({ vehicles, refresh, palette, cvar }: VehicleMapProps) {
@@ -29,7 +36,7 @@ function VehicleMap({ vehicles, refresh, palette, cvar }: VehicleMapProps) {
   const [map, setMap] = useState<mapboxgl.Map>();
   const svgRef = useRef<SVGSVGElement>(null);
   //   const [svg, setSvg] = useState<SVGSVGElement | unknown | null | undefined>();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Data[]>([]);
 
   useEffect(() => {
     console.log("-- set map --");
@@ -97,48 +104,49 @@ function VehicleMap({ vehicles, refresh, palette, cvar }: VehicleMapProps) {
     if (map === undefined) return;
     setData(
       vehicles
-        .map((v: any) => ({
-          id: v.key,
+        .map((v) => ({
+          id: v.vehicle.id,
           pos: map.project(
             new mapboxgl.LngLat(v.position.longitude, v.position.latitude)
           ),
           // occ_stat: cvar(v),
           status: cvar(v) === undefined ? 0 : cvar(v) + 1,
         }))
-        .sort((a: any, b: any) => a.status - b.status)
+        .sort((a, b) => a.status - b.status)
     );
-  }, [svgRef, vehicles, map]);
+  }, [svgRef, vehicles, map, cvar]);
 
   useEffect(() => {
     if (data.length === 0) return;
-    // console.log(data)
 
     console.log("-- set data points --");
-    let circles = d3
+    const circles = d3
       .select(svgRef.current)
-      .selectAll("circle")
-      .data(data, (d: any) => d.id);
+      .selectAll<SVGSVGElement, Data>("circle")
+      .data(data, (d) => d.id);
 
     circles.exit().transition().duration(500).attr("r", 0).remove();
 
+    console.log(palette);
+    console.log(data);
     circles
       .enter()
       .append("circle")
-      .style("fill", (d: any) => palette[d.status])
-      .attr("r", 0)
-      .attr("cx", (d: any) => d.pos.x)
-      .attr("cy", (d: any) => d.pos.y)
-      .transition()
-      .duration(500)
-      .attr("r", 5);
+      .style("fill", (d) => palette[d.status] || "")
+      .attr("r", 5)
+      .attr("cx", (d) => d.pos.x)
+      .attr("cy", (d) => d.pos.y);
+    // .transition()
+    // .duration(500)
+    // .attr("r", 5);
 
     circles
       .transition()
       .ease(d3.easeLinear)
       .duration(refresh)
-      .attr("cx", (d: any) => d.pos.x)
-      .attr("cy", (d: any) => d.pos.y)
-      .style("fill", (d: any) => palette[d.status]);
+      .attr("cx", (d) => d.pos.x)
+      .attr("cy", (d) => d.pos.y)
+      .style("fill", (d) => palette[d.status] || "");
 
     return () => {
       d3.select(svgRef.current).selectAll("circle").data([]);

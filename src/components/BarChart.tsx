@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 
 export type TableType = {
   label: string;
@@ -25,95 +24,35 @@ function BarChart({ data, xlab }: BarChartProps) {
   }, [data]);
 
   return (
-    <Container>
-      <Label>{xlab}</Label>
+    <div className="mb-8 mt-4 flex flex-col border-b border-t-4 border-t-white border-b-white">
+      <div className="fontb-bold border-b border-b-white p-2 text-white">
+        {xlab}
+      </div>
       {data.length &&
         data.map((d) => (
-          <Column key={d.label}>
-            <Bar height={100 * (d.count / maxCount)} colour={d.colour} />
-            <BarCount>{d.count}</BarCount>
-            <BarLabel>{d.label}</BarLabel>
-          </Column>
+          <div
+            key={d.label}
+            className="flex h-8 w-full flex-1 flex-row-reverse overflow-hidden text-center text-[0.7em] font-bold text-white"
+          >
+            <div className="relative my-[2px] mx-0 flex-1">
+              <div
+                className="absolute left-0 h-full transition-[height] duration-[5s] ease-in-out"
+                style={{
+                  width: `${100 * (d.count / maxCount)}%`,
+                  backgroundColor: d.colour,
+                }}
+              ></div>
+            </div>
+            <div className="flex w-12 items-center justify-center p-2">
+              {d.count}
+            </div>
+            <div className="flex w-[180px] items-center justify-end overflow-hidden border-r border-r-white pr-[10px]">
+              {d.label}
+            </div>
+          </div>
         ))}
-    </Container>
+    </div>
   );
 }
 
 export default BarChart;
-
-const Container = styled.div`
-  margin-bottom: 2em;
-  margin-top: 1em;
-  /* left: 2em;
-    bottom: 2em; */
-  /* height: 30vh; */
-  display: flex;
-  flex-direction: column;
-  /* background: rgba(0,0,0,0.3); */
-  /* padding: 0.5em; */
-  border-top: solid 4px white;
-  /* padding-top: 0.5em; */
-  border-bottom: solid 1px white;
-`;
-
-const Label = styled.div`
-  color: white;
-  /* width: 180px; */
-  /* text-align: right; */
-  font-weight: bold;
-  /* background: pink; */
-  padding: 0.5em;
-  border-bottom: solid 1px white;
-`;
-
-const Column = styled.div`
-  width: 100%;
-  flex: 1;
-  display: flex;
-  flex-direction: row-reverse;
-  color: white;
-  text-align: center;
-  font-weight: bold;
-  font-size: 0.7em;
-  overflow: hidden;
-  height: 2em;
-`;
-
-interface BarProps {
-  height: number;
-  colour: string;
-}
-const Bar = styled.div<BarProps>`
-  flex: 1;
-  margin: 2px 0;
-  position: relative;
-
-  &:before {
-    content: "";
-    display: block;
-    position: absolute;
-    height: 100%;
-    left: 0;
-    width: ${(props) => props.height * 0.85}%;
-    background: ${(props) => props.colour};
-    transition: width 5s ease-in-out;
-  }
-`;
-
-const BarCount = styled.div`
-  padding: 0.5em;
-  width: 3em;
-  align-items: center;
-  display: flex;
-  justify-content: center;
-`;
-
-const BarLabel = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  border-right: solid 1px white;
-  padding-right: 10px;
-  width: 180px;
-  overflow: hidden;
-`;

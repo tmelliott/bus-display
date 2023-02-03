@@ -1,5 +1,3 @@
-import styled from "styled-components";
-
 type InfoPanelProps = {
   total: number;
   refresh: number;
@@ -11,14 +9,15 @@ function InfoPanel({ total, refresh }: InfoPanelProps) {
       <div className="flex flex-col gap-4">
         <p>
           <strong>Real-time vehicle locations</strong> of buses and trains are
-          obtained from Auckland Transport's public API. The data on the map is
-          updated once every <strong>{refresh} seconds</strong>. Animations are
-          interpolated between consecutive locations (so don't worry if you see
-          a bus swimming in the Waitematā).
+          obtained from Auckland Transport&apos;s public API. The data on the
+          map is updated once every <strong>{refresh} seconds</strong>.
+          Animations are interpolated between consecutive locations (so
+          don&apos;t worry if you see a bus swimming in the Waitematā).
         </p>
         <p>
-          Map points are coloured by the bus's <strong>occupancy status</strong>
-          , which indicates the number of passengers on board.
+          Map points are coloured by the bus&apos;s{" "}
+          <strong>occupancy status</strong>, which indicates the number of
+          passengers on board.
         </p>
       </div>
 

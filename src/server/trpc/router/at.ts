@@ -2,7 +2,7 @@ import { router, publicProcedure } from "../trpc";
 
 // read at_schema.json file
 import path from "path";
-import fs, { writeFileSync } from "fs";
+import { writeFileSync } from "fs";
 import { compileFromFile } from "json-schema-to-typescript";
 
 const dir = path.join(process.cwd(), "src", "server", "trpc", "router");
@@ -41,6 +41,7 @@ export interface StopTimeUpdate {
   schedule_relationship: 0 | 1 | 2;
 }
 export interface VehicleUpdate {
+  id: string;
   trip?: Trip;
   vehicle: Vehicle;
   position: Position;
@@ -76,9 +77,7 @@ export const atRouter = router({
     if (!res.response?.entity) return { entities: [] };
 
     // map over results and force it into a better format
-    const entities: Entity[] = res.response.entity.map((entity: any) => {
-      return entity as Entity;
-    });
+    const entities: Entity[] = res.response.entity;
 
     return {
       entities,
