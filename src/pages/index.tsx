@@ -49,6 +49,7 @@ const Home: NextPage = () => {
   const [delaysTable, setDelaysTable] = useState<TableType[]>([]);
 
   const { data: feed } = trpc.at.fetch.useQuery();
+  const utils = trpc.useContext();
 
   const delayMapFn = (d: number | undefined) => {
     if (d === undefined) return 0;
@@ -62,40 +63,13 @@ const Home: NextPage = () => {
   };
 
   // Run when the app loads:
-  // useEffect(() => {
-  //   let fetching = false;
-
-  //   const fetchData = () => {
-  //     if (fetching) return;
-  //     console.log(" --- fetch data --- ");
-  //     fetching = true;
-
-  //     const headers = {
-  //       "Ocp-Apim-Subscription-Key": process.env.NEXT_PUBLIC_AT_API_KEY || "",
-  //     };
-
-  //     fetch("https://api.at.govt.nz/v2/public/realtime/", { headers })
-  //       .then((response) => {
-  //         if (response.ok) {
-  //           return response.json();
-  //         }
-  //         // console.log(response)
-  //       })
-  //       .then((data) => setFeed(data.response.entity))
-  //       .then(() => {
-  //         fetching = false;
-  //       });
-
-  //     return () => {
-  //       fetching = false;
-  //     };
-  //   };
-
-  //   fetchData();
-  //   let interval = setInterval(() => fetchData(), refresh_rate * 1000);
-
-  //   return () => clearInterval(interval);
-  // }, []);
+  useEffect(() => {
+    let interval = setInterval(
+      () => utils.at.fetch.invalidate(),
+      refresh_rate * 1000
+    );
+    return () => clearInterval(interval);
+  }, []);
 
   // Run when the feed changes:
   useEffect(() => {
