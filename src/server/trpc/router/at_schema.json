@@ -1,0 +1,442 @@
+{
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "example": "OK"
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "properties": {
+            "gtfs_realtime_version": {
+              "type": "string",
+              "example": "1.0"
+            },
+            "incrementality": {
+              "type": "number",
+              "example": 1.0
+            },
+            "timestamp": {
+              "type": "number",
+              "example": 259982000.0
+            }
+          }
+        },
+        "entity": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "259982000"
+                  },
+                  "is_deleted": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "trip_update": {
+                    "type": "object",
+                    "properties": {
+                      "trip": {
+                        "type": "object",
+                        "properties": {
+                          "trip_id": {
+                            "type": "string"
+                          },
+                          "route_id": {
+                            "type": "string"
+                          },
+                          "direction_id": {
+                            "type": "number"
+                          },
+                          "start_time": {
+                            "type": "string"
+                          },
+                          "start_date": {
+                            "type": "string"
+                          },
+                          "schedule_relationship": {
+                            "enum": [0.0, 1.0, 2.0, 3.0],
+                            "type": "number",
+                            "example": 0.0
+                          }
+                        },
+                        "example": {
+                          "trip_id": "1033-32504-52500-2-d16dbfbd",
+                          "route_id": "325-221",
+                          "direction_id": 0.0,
+                          "start_time": "13:54:00",
+                          "start_date": "20190528",
+                          "schedule_relationship": 0
+                        }
+                      },
+                      "vehicle": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "license_plate": {
+                            "type": "string"
+                          }
+                        },
+                        "example": {
+                          "id": "512000545",
+                          "label": "DALDY",
+                          "license_plate": "ZMZ7645"
+                        }
+                      },
+                      "stop_time_update": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "stop_sequence": {
+                              "type": "number",
+                              "example": 1.0
+                            },
+                            "stop_id": {
+                              "type": "string",
+                              "example": "1-6955"
+                            },
+                            "arrival": {
+                              "type": "object",
+                              "properties": {
+                                "delay": {
+                                  "type": "number"
+                                },
+                                "time": {
+                                  "type": "number"
+                                },
+                                "uncertainty": {
+                                  "type": "number"
+                                }
+                              },
+                              "example": {
+                                "delay": -441.0,
+                                "time": 1559005659.0
+                              }
+                            },
+                            "departure": {
+                              "type": "object",
+                              "properties": {
+                                "delay": {
+                                  "type": "number"
+                                },
+                                "time": {
+                                  "type": "number"
+                                },
+                                "uncertainty": {
+                                  "type": "number"
+                                }
+                              },
+                              "example": {
+                                "delay": -441.0,
+                                "time": 1559005659.0
+                              }
+                            },
+                            "schedule_relationship": {
+                              "enum": [0.0, 1.0, 2.0],
+                              "type": "number",
+                              "example": 0.0
+                            }
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "number",
+                        "example": 1558997153.0
+                      },
+                      "delay": {
+                        "type": "number",
+                        "example": -67.0
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "259982000"
+                  },
+                  "is_deleted": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "vehicle": {
+                    "type": "object",
+                    "properties": {
+                      "trip": {
+                        "type": "object",
+                        "properties": {
+                          "trip_id": {
+                            "type": "string"
+                          },
+                          "route_id": {
+                            "type": "string"
+                          },
+                          "direction_id": {
+                            "type": "number"
+                          },
+                          "start_time": {
+                            "type": "string"
+                          },
+                          "start_date": {
+                            "type": "string"
+                          },
+                          "schedule_relationship": {
+                            "enum": [0.0, 1.0, 2.0, 3.0],
+                            "type": "number",
+                            "example": 0.0
+                          }
+                        },
+                        "example": {
+                          "trip_id": "1033-32504-52500-2-d16dbfbd",
+                          "route_id": "325-221",
+                          "direction_id": 0.0,
+                          "start_time": "13:54:00",
+                          "start_date": "20190528",
+                          "schedule_relationship": 0
+                        }
+                      },
+                      "vehicle": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "license_plate": {
+                            "type": "string"
+                          }
+                        },
+                        "example": {
+                          "id": "512000545",
+                          "label": "DALDY",
+                          "license_plate": "ZMZ7645"
+                        }
+                      },
+                      "position": {
+                        "type": "object",
+                        "properties": {
+                          "latitude": {
+                            "type": "number"
+                          },
+                          "longitude": {
+                            "type": "number"
+                          },
+                          "bearing": {
+                            "type": "number"
+                          },
+                          "odometer": {
+                            "type": "number"
+                          },
+                          "speed": {
+                            "type": "number"
+                          }
+                        },
+                        "example": {
+                          "latitude": -36.84022,
+                          "longitude": 174.776726666667,
+                          "speed": 0.0514444
+                        }
+                      },
+                      "timestamp": {
+                        "type": "number",
+                        "example": 1559011152.0
+                      },
+                      "congestion_level": {
+                        "enum": [0, 1, 2, 3, 4],
+                        "type": "integer",
+                        "example": 2
+                      },
+                      "occupancy_status": {
+                        "enum": [0, 1, 2, 3, 4, 5, 6],
+                        "type": "integer",
+                        "example": 1
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "259982000"
+                  },
+                  "is_deleted": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "alert": {
+                    "type": "object",
+                    "properties": {
+                      "active_period": {
+                        "type": "object",
+                        "properties": {
+                          "start": {
+                            "type": "number"
+                          },
+                          "end": {
+                            "type": "number"
+                          }
+                        },
+                        "example": {
+                          "start": 1559008444.0,
+                          "end": 1559008746.0
+                        }
+                      },
+                      "informed_entity": {
+                        "type": "object",
+                        "properties": {
+                          "agency_id": {
+                            "type": "string"
+                          },
+                          "route_id": {
+                            "type": "string"
+                          },
+                          "route_type": {
+                            "type": "number"
+                          },
+                          "trip": {
+                            "type": "object",
+                            "properties": {
+                              "trip_id": {
+                                "type": "string"
+                              },
+                              "route_id": {
+                                "type": "string"
+                              },
+                              "direction_id": {
+                                "type": "number"
+                              },
+                              "start_time": {
+                                "type": "string"
+                              },
+                              "start_date": {
+                                "type": "string"
+                              },
+                              "schedule_relationship": {
+                                "enum": [0.0, 1.0, 2.0, 3.0],
+                                "type": "number",
+                                "example": 0.0
+                              }
+                            },
+                            "example": {
+                              "trip_id": "1033-32504-52500-2-d16dbfbd",
+                              "route_id": "325-221",
+                              "direction_id": 0.0,
+                              "start_time": "13:54:00",
+                              "start_date": "20190528",
+                              "schedule_relationship": 0
+                            }
+                          },
+                          "stop_id": {
+                            "type": "string"
+                          }
+                        },
+                        "example": {
+                          "route_id": "325-221"
+                        }
+                      },
+                      "cause": {
+                        "enum": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "effect": {
+                        "enum": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                        "type": "integer",
+                        "example": 8
+                      },
+                      "url": {
+                        "type": "object",
+                        "properties": {
+                          "translation": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "type": "string"
+                              },
+                              "language": {
+                                "type": "string"
+                              }
+                            },
+                            "example": {
+                              "text": "sample text",
+                              "language": "English"
+                            }
+                          }
+                        }
+                      },
+                      "header_text": {
+                        "type": "object",
+                        "properties": {
+                          "translation": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "type": "string"
+                              },
+                              "language": {
+                                "type": "string"
+                              }
+                            },
+                            "example": {
+                              "text": "sample text",
+                              "language": "English"
+                            }
+                          }
+                        }
+                      },
+                      "description_text": {
+                        "type": "object",
+                        "properties": {
+                          "translation": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "type": "string"
+                              },
+                              "language": {
+                                "type": "string"
+                              }
+                            },
+                            "example": {
+                              "text": "sample text",
+                              "language": "English"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "nullable": true
+    }
+  }
+}
