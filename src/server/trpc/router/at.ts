@@ -7,9 +7,11 @@ import { compileFromFile } from "json-schema-to-typescript";
 
 const dir = path.join(process.cwd(), "src", "server", "trpc", "router");
 
-compileFromFile(dir + "/at_schema.json").then((ts) => {
-  writeFileSync(dir + "/at_schema.d.ts", ts);
-});
+// if running in dev mode, generate typescript types from json schema
+if (process.env.NODE_ENV === "development")
+  compileFromFile(dir + "/at_schema.json").then((ts) => {
+    writeFileSync(dir + "/at_schema.d.ts", ts);
+  });
 
 export interface Trip {
   trip_id: string;
