@@ -64,12 +64,12 @@ const Home: NextPage = () => {
 
   // Run when the app loads:
   useEffect(() => {
-    let interval = setInterval(
+    const interval = setInterval(
       () => utils.at.fetch.invalidate(),
       refresh_rate * 1000
     );
     return () => clearInterval(interval);
-  }, []);
+  }, [utils, refresh_rate]);
 
   // Run when the feed changes:
   useEffect(() => {
